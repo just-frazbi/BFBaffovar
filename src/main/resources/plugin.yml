@@ -1,0 +1,24 @@
+name: BFBaffovar
+version: '1.1-Realease'
+main: com.frazbi.bFBaffovar.BFBaffovar
+api-version: '1.20'
+description: Potion merging plugin with configurable GUI and Vault economy
+authors: [ frazbik ]
+softdepend: [ Vault ]
+
+commands:
+  bfbaffovar:
+    description: Open the potion merging menu
+    usage: /bfbaffovar [reload]
+    aliases: [ bfb ]
+
+permissions:
+  bfbaffovar.use:
+    description: Allows using /bfbaffovar
+    default: true
+  bfbaffovar.reload:
+    description: Allows reloading the config
+    default: op
+  bfbaffovar.free:
+    description: Merge potions for free
+    default: op

@@ -1,0 +1,74 @@
+# ============================================================
+#   BFBaffovar — Plugin Configuration
+# ============================================================
+
+economy:
+  enabled: true
+  pricing-mode: PER_POTION
+  cost: 50.0
+
+merge:
+  max-potions: 7
+  require-same-type: true
+
+permissions:
+  use: "bfbaffovar.use"
+  reload: "bfbaffovar.reload"
+  free: "bfbaffovar.free"
+
+sounds:
+  open-gui: "BLOCK_CHEST_OPEN"
+  merge-success: "ENTITY_PLAYER_LEVELUP"
+  merge-fail: "ENTITY_VILLAGER_NO"
+  no-money: "BLOCK_NOTE_BLOCK_BASS"
+
+gui:
+  size: 27
+  title: "&#DDDDDD Potion Merger"
+
+  potion-slots: [1, 2, 3, 4, 5, 6, 7]
+
+  filler:
+    enabled: true
+    material: "GRAY_STAINED_GLASS_PANE"
+    name: " "
+    slots: [0, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+
+  merge-button:
+    slot: 22
+    material: "LIME_STAINED_GLASS_PANE"
+    name: "&#7EFF9F Merge"
+    lore:
+      - "&#DDDDDD Place potions in the slots above"
+      - ""
+      - "&#DDDDDD Cost:    &#FFCE69{cost} {currency}"
+      - "&#DDDDDD Balance: &#FFCE69{balance} {currency}"
+
+  clear-button:
+    slot: 18
+    material: "RED_STAINED_GLASS_PANE"
+    name: "&#FF6969 Return All"
+    lore:
+      - "&#DDDDDD Returns all potions to your inventory"
+
+  info-button:
+    slot: 26
+    material: "WHITE_STAINED_GLASS_PANE"
+    name: "&#DDDDDD Info"
+    lore:
+      - "&#DDDDDD Max potions: &#FFCE69{max}"
+      - "&#DDDDDD Cost:        &#FFCE69{cost} {currency}"
+
+messages:
+  prefix: "&#DDDDDD » &r"
+  no-permission: "{prefix}&#FF6969You don't have permission."
+  vault-not-found: "{prefix}&#FF6969Vault not found!"
+  reload-success: "{prefix}&#7EFF9FConfig reloaded."
+  no-potions: "{prefix}&#FF6969Place at least one potion first."
+  not-a-potion: "{prefix}&#FF6969Only potions are allowed here!"
+  not-same-type: "{prefix}&#FF6969All potions must be the same type and level."
+  not-enough-money: "{prefix}&#FF6969Need &#FFCE69{cost} {currency}&#FF6969, you have &#FFCE69{balance}&#FF6969."
+  merge-success: "{prefix}&#7EFF9FMerged &#FFCE69{count} &#7EFF9Fpotions for &#FFCE69{cost} {currency}&#7EFF9F."
+  merge-free: "{prefix}&#7EFF9FMerged &#FFCE69{count} &#7EFF9Fpotions for free."
+  inventory-full: "{prefix}&#FF6969Inventory full! Items dropped at your feet."
+  invalid-command: "{prefix}&#DDDDDDUsage: /bfbaffovar [reload]"
