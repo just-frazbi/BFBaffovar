@@ -78,9 +78,6 @@ public class PotionGUI implements Listener {
         economyEnabled  = plugin.getConfig().getBoolean("economy.enabled", true);
     }
 
-    // -------------------------------------------------------------------------
-    // Open GUI
-    // -------------------------------------------------------------------------
 
     public void openGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, guiSize, guiTitle);
@@ -103,10 +100,6 @@ public class PotionGUI implements Listener {
         playSound(player, "open-gui");
     }
 
-    // -------------------------------------------------------------------------
-    // Click
-    // -------------------------------------------------------------------------
-
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
@@ -116,7 +109,6 @@ public class PotionGUI implements Listener {
         if (tracked == null) return;
         if (!tracked.equals(event.getView().getTopInventory())) return;
 
-        // Bottom inventory — обрабатываем только shift+click
         if (event.getClickedInventory() != null
                 && event.getClickedInventory().equals(event.getView().getBottomInventory())) {
             if (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
@@ -127,7 +119,6 @@ public class PotionGUI implements Listener {
                     sendMessage(player, "not-a-potion");
                     return;
                 }
-                // Проверка совместимости с уже лежащими зельями
                 if (!isCompatibleWithSlots(item, tracked)) {
                     sendMessage(player, "not-same-type");
                     playSound(player, "merge-fail");
@@ -146,7 +137,6 @@ public class PotionGUI implements Listener {
             return;
         }
 
-        // Top inventory — отменяем всё, обрабатываем вручную
         event.setCancelled(true);
 
         int slot = event.getRawSlot();
@@ -169,7 +159,6 @@ public class PotionGUI implements Listener {
 
         InventoryAction action = event.getAction();
 
-        // Взять из слота
         if (!slotEmpty && cursorEmpty &&
                 (action == InventoryAction.PICKUP_ALL || action == InventoryAction.PICKUP_HALF
                         || action == InventoryAction.PICKUP_ONE || action == InventoryAction.PICKUP_SOME)) {
@@ -194,7 +183,6 @@ public class PotionGUI implements Listener {
             return;
         }
 
-        // Положить в слот
         if (!cursorEmpty && slotEmpty &&
                 (action == InventoryAction.PLACE_ALL || action == InventoryAction.PLACE_ONE
                         || action == InventoryAction.PLACE_SOME)) {
@@ -204,7 +192,6 @@ public class PotionGUI implements Listener {
                 playSound(player, "merge-fail");
                 return;
             }
-            // Проверяем совместимость с другими зельями в слотах (исключая текущий слот — он пустой)
             if (!isCompatibleWithSlots(cursor, inv)) {
                 sendMessage(player, "not-same-type");
                 playSound(player, "merge-fail");
@@ -224,7 +211,6 @@ public class PotionGUI implements Listener {
             return;
         }
 
-        // Поменять местами курсор и слот
         if (!cursorEmpty && !slotEmpty && action == InventoryAction.SWAP_WITH_CURSOR) {
             if (!isPotion(cursor)) {
                 sendMessage(player, "not-a-potion");
@@ -244,9 +230,6 @@ public class PotionGUI implements Listener {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Drag
-    // -------------------------------------------------------------------------
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryDrag(InventoryDragEvent event) {
@@ -266,9 +249,6 @@ public class PotionGUI implements Listener {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Close
-    // -------------------------------------------------------------------------
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryClose(InventoryCloseEvent event) {
@@ -281,9 +261,6 @@ public class PotionGUI implements Listener {
         returnPotions(player, tracked);
     }
 
-    // -------------------------------------------------------------------------
-    // Quit
-    // -------------------------------------------------------------------------
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event) {
@@ -293,9 +270,6 @@ public class PotionGUI implements Listener {
         returnPotions(player, tracked);
     }
 
-    // -------------------------------------------------------------------------
-    // Merge
-    // -------------------------------------------------------------------------
 
     private void handleMerge(Player player, Inventory inv) {
         UUID uuid = player.getUniqueId();
@@ -388,9 +362,6 @@ public class PotionGUI implements Listener {
         return base;
     }
 
-    // -------------------------------------------------------------------------
-    // Clear
-    // -------------------------------------------------------------------------
 
     private void handleClear(Player player, Inventory inv) {
         for (int slot : potionSlots) {
@@ -403,9 +374,6 @@ public class PotionGUI implements Listener {
         refreshMergeButton(player, inv);
     }
 
-    // -------------------------------------------------------------------------
-    // Item builders
-    // -------------------------------------------------------------------------
 
     private ItemStack buildMergeButton(Player player, int potionCount) {
         String mat  = plugin.getConfig().getString("gui.merge-button.material", "PURPLE_STAINED_GLASS_PANE");
@@ -474,9 +442,6 @@ public class PotionGUI implements Listener {
         return item;
     }
 
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
 
     private void refreshMergeButton(Player player, Inventory inv) {
         int count = 0;
@@ -506,10 +471,6 @@ public class PotionGUI implements Listener {
                 || t == Material.TIPPED_ARROW;
     }
 
-    /**
-     * Полная проверка одинаковости зелий:
-     * сравниваем Material (обычное/плеск/летящее) + PotionType (тип) + усиление + продление
-     */
     private boolean allSameType(List<ItemStack> potions) {
         if (potions.size() <= 1) return true;
         ItemStack first = potions.get(0);
@@ -520,10 +481,6 @@ public class PotionGUI implements Listener {
         return true;
     }
 
-    /**
-     * Проверяет, совместим ли item с зельями, уже лежащими в слотах инвентаря.
-     * Если слоты пустые — всегда совместим.
-     */
     private boolean isCompatibleWithSlots(ItemStack item, Inventory inv) {
         String itemKey = getPotionKey(item);
         for (int slot : potionSlots) {
@@ -535,9 +492,6 @@ public class PotionGUI implements Listener {
         return true;
     }
 
-    /**
-     * Как isCompatibleWithSlots, но игнорирует конкретный слот (для swap).
-     */
     private boolean isCompatibleWithSlotsExcluding(ItemStack item, Inventory inv, int excludeSlot) {
         String itemKey = getPotionKey(item);
         for (int slot : potionSlots) {
@@ -550,15 +504,6 @@ public class PotionGUI implements Listener {
         return true;
     }
 
-    /**
-     * Уникальный ключ зелья — работает на 1.20.1 и 1.20.5+/1.21+.
-     *
-     * До 1.20.4: используем старый API PotionData (getBasePotionData).
-     * С 1.20.5+:  используем новый API getBasePotionType() через reflection,
-     *             чтобы код компилировался под 1.20.1 без ошибок.
-     *
-     * Ключ: "MATERIAL:POTION_TYPE[:upgraded][:extended]"
-     */
     private String getPotionKey(ItemStack item) {
         if (item == null) return "null";
         StringBuilder key = new StringBuilder(item.getType().name());
@@ -567,8 +512,6 @@ public class PotionGUI implements Listener {
 
         PotionMeta pm = (PotionMeta) meta;
 
-        // Определяем версию сервера один раз через Bukkit.getBukkitVersion()
-        // Формат: "1.20.1-R0.1-SNAPSHOT", "1.21-R0.1-SNAPSHOT" и т.д.
         try {
             String version = Bukkit.getBukkitVersion(); // e.g. "1.21-R0.1-SNAPSHOT"
             int[] ver = parseVersion(version);
@@ -583,7 +526,6 @@ public class PotionGUI implements Listener {
                     key.append(":").append(potionType.toString());
                 }
             } else {
-                // 1.20.1-1.20.4 API: старый PotionData
                 java.lang.reflect.Method method = PotionMeta.class.getMethod("getBasePotionData");
                 Object data = method.invoke(pm);
                 if (data != null) {
@@ -603,7 +545,6 @@ public class PotionGUI implements Listener {
         return key.toString();
     }
 
-    /** Парсит версию из строки вида "1.21-R0.1-SNAPSHOT" → [1, 21, 0] */
     private int[] parseVersion(String raw) {
         try {
             String clean = raw.split("-")[0]; // "1.21"

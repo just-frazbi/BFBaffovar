@@ -17,7 +17,6 @@ public final class BFBaffovar extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
 
-        // Hook Vault
         if (setupEconomy()) {
             vaultEnabled = true;
             getLogger().info("Vault hooked: " + economy.getName());
@@ -25,11 +24,9 @@ public final class BFBaffovar extends JavaPlugin {
             getLogger().warning("Vault not found. Economy features disabled.");
         }
 
-        // Init GUI
         potionGUI = new PotionGUI(this);
         getServer().getPluginManager().registerEvents(potionGUI, this);
 
-        // Register command
         BFBCommand bfbCommand = new BFBCommand(this);
         PluginCommand cmd = getCommand("bfbaffovar");
         if (cmd != null) {

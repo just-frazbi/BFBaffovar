@@ -23,7 +23,6 @@ public class BFBCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        // /bfbaffovar reload
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             String reloadPerm = plugin.getConfig().getString("permissions.reload", "bfbaffovar.reload");
             if (!sender.hasPermission(reloadPerm)) {
@@ -35,7 +34,6 @@ public class BFBCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        // /bfbaffovar — open GUI
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
                 sender.sendMessage(ColorUtil.color("&cOnly players can use this command."));
