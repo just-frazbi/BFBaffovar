@@ -20,6 +20,9 @@ public class MergeLogger {
     private final File dbFile;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    private boolean debugConsole;
+    private boolean debugDatabase;
+
     public MergeLogger(BFBaffovar plugin) {
         this.plugin = plugin;
         this.console = plugin.getLogger();
@@ -28,7 +31,9 @@ public class MergeLogger {
         if (!dataFolder.exists()) dataFolder.mkdirs();
         this.dbFile = new File(dataFolder, "database.log");
 
-        if (!dbFile.exists()) {
+        loadSettings();
+
+        if (debugDatabase && !dbFile.exists()) {
             try {
                 dbFile.createNewFile();
                 writeLine("# BFBaffovar Merge Database");
@@ -39,11 +44,20 @@ public class MergeLogger {
             }
         }
 
-        console.info("[Debug] MergeLogger initialized. Database: " + dbFile.getPath());
+        console.info("Debug console: " + (debugConsole ? "enabled" : "disabled")
+                + " | Debug database: " + (debugDatabase ? "enabled" : "disabled"));
+    }
+
+    public void reload() {
+        loadSettings();
+    }
+
+    private void loadSettings() {
+        debugConsole  = plugin.getConfig().getBoolean("debug.console", true);
+        debugDatabase = plugin.getConfig().getBoolean("debug.database", true);
     }
 
     public void logMerge(Player player, List<ItemStack> potions, double cost, String provider) {
-        String timestamp = dateFormat.format(new Date());
         String potionName = getPotionDisplayName(potions.get(0));
         int count = potions.size();
         String location = String.format("%s %.0f %.0f %.0f",
@@ -52,23 +66,17 @@ public class MergeLogger {
                 player.getLocation().getY(),
                 player.getLocation().getZ());
 
-        String consoleLine = String.format(
-                "[Debug] MERGE | Player: %s | Potion: %s x%d | Cost: %.2f | Provider: %s | Location: %s",
-                player.getName(), potionName, count, cost, provider, location
-        );
-        console.info(consoleLine);
+        if (debugConsole) {
+            console.info(String.format("[Debug] MERGE | Player: %s | Potion: %s x%d | Cost: %.2f | Provider: %s | Location: %s",
+                    player.getName(), potionName, count, cost, provider, location));
+        }
 
-        String dbLine = String.format("[%s] | %s | %s | %s | %s x%d | %.2f | %s",
-                timestamp,
-                player.getName(),
-                player.getUniqueId(),
-                location,
-                potionName,
-                count,
-                cost,
-                provider
-        );
-        writeLine(dbLine);
+        if (debugDatabase) {
+            writeLine(String.format("[%s] | %s | %s | %s | %s x%d | %.2f | %s",
+                    dateFormat.format(new Date()),
+                    player.getName(), player.getUniqueId(),
+                    location, potionName, count, cost, provider));
+        }
     }
 
     public void logMergeFree(Player player, List<ItemStack> potions) {
@@ -76,15 +84,17 @@ public class MergeLogger {
     }
 
     public void logFailure(Player player, String reason) {
-        String timestamp = dateFormat.format(new Date());
-
-        console.info(String.format("[Debug] FAIL | Player: %s | Reason: %s", player.getName(), reason));
-
-        writeLine(String.format("[%s] | %s | %s | FAILED: %s",
-                timestamp, player.getName(), player.getUniqueId(), reason));
+        if (debugConsole) {
+            console.info(String.format("[Debug] FAIL | Player: %s | Reason: %s", player.getName(), reason));
+        }
+        if (debugDatabase) {
+            writeLine(String.format("[%s] | %s | %s | FAILED: %s",
+                    dateFormat.format(new Date()), player.getName(), player.getUniqueId(), reason));
+        }
     }
 
     public void logGuiOpen(Player player) {
+        if (!debugConsole) return;
         console.info(String.format("[Debug] GUI_OPEN | Player: %s | Location: %s %.0f %.0f %.0f",
                 player.getName(),
                 player.getWorld().getName(),
@@ -94,6 +104,7 @@ public class MergeLogger {
     }
 
     public void logGuiClose(Player player, int returnedCount) {
+        if (!debugConsole) return;
         console.info(String.format("[Debug] GUI_CLOSE | Player: %s | Returned: %d potions",
                 player.getName(), returnedCount));
     }

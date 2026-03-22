@@ -44,6 +44,7 @@ public final class BFBaffovar extends JavaPlugin {
     public void reloadPlugin() {
         reloadConfig();
         economyManager.setup();
+        mergeLogger.reload();
         potionGUI.reload();
         getLogger().info("BFBaffovar config reloaded.");
     }

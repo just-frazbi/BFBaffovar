@@ -3,6 +3,12 @@
 #   Supports: &color codes and &#RRGGBB HEX colors
 # ============================================================
 
+debug:
+  # Print debug messages to console (GUI open/close, merges, failures)
+  console: true
+  # Save merge history to plugins/BFBaffovar/database.log
+  database: true
+
 economy:
   # Economy provider: VAULT or PLAYERPOINTS
   # If the selected plugin is not found, automatically falls back to the other
