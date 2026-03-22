@@ -1,5 +1,5 @@
 name: BFBaffovar
-version: '1.1-Realease'
+version: '2.0.1-Beta'
 main: com.frazbi.bFBaffovar.BFBaffovar
 api-version: '1.20'
 description: Potion merging plugin with configurable GUI and Vault economy

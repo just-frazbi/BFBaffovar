@@ -1,14 +1,23 @@
 # ============================================================
-#   BFBaffovar — Plugin Configuration
+#   BFBaffovar - Plugin Configuration
+#   Supports: &color codes and &#RRGGBB HEX colors
 # ============================================================
 
 economy:
+  # Economy provider: VAULT or PLAYERPOINTS
+  # If the selected plugin is not found, automatically falls back to the other
+  provider: VAULT
   enabled: true
+  # Pricing mode: FIXED (one flat price) or PER_POTION (price x count)
   pricing-mode: PER_POTION
   cost: 50.0
+  # Currency name displayed for PlayerPoints (Vault uses its own name automatically)
+  playerpoints-currency-name: "points"
 
 merge:
+  # Maximum potions per merge (max 7)
   max-potions: 7
+  # Only allow potions of the same type and level to be merged
   require-same-type: true
 
 permissions:
@@ -23,9 +32,11 @@ sounds:
   no-money: "BLOCK_NOTE_BLOCK_BASS"
 
 gui:
+  # Inventory size must be a multiple of 9 (9, 18, 27, 36, 45, 54)
   size: 27
   title: "&#DDDDDD Potion Merger"
 
+  # Slots where players place their potions
   potion-slots: [1, 2, 3, 4, 5, 6, 7]
 
   filler:
@@ -62,7 +73,7 @@ gui:
 messages:
   prefix: "&#DDDDDD » &r"
   no-permission: "{prefix}&#FF6969You don't have permission."
-  vault-not-found: "{prefix}&#FF6969Vault not found!"
+  vault-not-found: "{prefix}&#FF6969No economy plugin found!"
   reload-success: "{prefix}&#7EFF9FConfig reloaded."
   no-potions: "{prefix}&#FF6969Place at least one potion first."
   not-a-potion: "{prefix}&#FF6969Only potions are allowed here!"
