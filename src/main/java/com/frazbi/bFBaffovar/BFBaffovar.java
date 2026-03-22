@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class BFBaffovar extends JavaPlugin {
 
     private EconomyManager economyManager;
+    private MergeLogger mergeLogger;
     private PotionGUI potionGUI;
 
     @Override
@@ -16,6 +17,8 @@ public final class BFBaffovar extends JavaPlugin {
 
         economyManager = new EconomyManager(this);
         economyManager.setup();
+
+        mergeLogger = new MergeLogger(this);
 
         potionGUI = new PotionGUI(this);
         getServer().getPluginManager().registerEvents(potionGUI, this);
@@ -47,6 +50,10 @@ public final class BFBaffovar extends JavaPlugin {
 
     public EconomyManager getEconomyManager() {
         return economyManager;
+    }
+
+    public MergeLogger getMergeLogger() {
+        return mergeLogger;
     }
 
     public PotionGUI getPotionGUI() {

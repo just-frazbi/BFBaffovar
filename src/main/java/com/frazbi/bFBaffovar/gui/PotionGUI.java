@@ -90,6 +90,7 @@ public class PotionGUI implements Listener {
         openInventories.put(player.getUniqueId(), inv);
         player.openInventory(inv);
         playSound(player, "open-gui");
+        plugin.getMergeLogger().logGuiOpen(player);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -231,8 +232,8 @@ public class PotionGUI implements Listener {
                     usedSlots.add(slot);
                 }
             }
-            if (potions.isEmpty()) { sendMessage(player, "no-potions"); playSound(player, "merge-fail"); return; }
-            if (!allSameType(potions)) { sendMessage(player, "not-same-type"); playSound(player, "merge-fail"); return; }
+            if (potions.isEmpty()) { sendMessage(player, "no-potions"); playSound(player, "merge-fail"); plugin.getMergeLogger().logFailure(player, "NO_POTIONS"); return; }
+            if (!allSameType(potions)) { sendMessage(player, "not-same-type"); playSound(player, "merge-fail"); plugin.getMergeLogger().logFailure(player, "DIFFERENT_TYPES"); return; }
 
             int count = potions.size();
             String freePerm = plugin.getConfig().getString("permissions.free", "bfbaffovar.free");
@@ -247,11 +248,13 @@ public class PotionGUI implements Listener {
                             .replace("{balance}", String.format("%.2f", eco.getBalance(player)))
                             .replace("{currency}", eco.getCurrencyName()));
                     playSound(player, "no-money");
+                    plugin.getMergeLogger().logFailure(player, "NOT_ENOUGH_MONEY (need " + String.format("%.2f", totalCost) + ", has " + String.format("%.2f", eco.getBalance(player)) + ")");
                     return;
                 }
                 if (!eco.withdraw(player, totalCost)) {
                     sendMessage(player, "not-enough-money");
                     playSound(player, "no-money");
+                    plugin.getMergeLogger().logFailure(player, "WITHDRAW_FAILED");
                     return;
                 }
                 for (int s : usedSlots) inv.setItem(s, null);
@@ -260,10 +263,12 @@ public class PotionGUI implements Listener {
                         .replace("{count}", String.valueOf(count))
                         .replace("{cost}", String.format("%.2f", totalCost))
                         .replace("{currency}", eco.getCurrencyName()));
+                plugin.getMergeLogger().logMerge(player, potions, totalCost, eco.getActiveProvider().name());
             } else {
                 for (int s : usedSlots) inv.setItem(s, null);
                 giveOrDrop(player, buildMergedPotion(potions));
                 player.sendMessage(getMessage("merge-free").replace("{count}", String.valueOf(count)));
+                plugin.getMergeLogger().logMergeFree(player, potions);
             }
             playSound(player, "merge-success");
             refreshMergeButton(player, inv);
@@ -363,13 +368,16 @@ public class PotionGUI implements Listener {
     }
 
     private void returnPotions(Player player, Inventory inv) {
+        int returned = 0;
         for (int slot : potionSlots) {
             ItemStack item = inv.getItem(slot);
             if (item != null && item.getType() != Material.AIR) {
                 giveOrDrop(player, item.clone());
                 inv.setItem(slot, null);
+                returned++;
             }
         }
+        plugin.getMergeLogger().logGuiClose(player, returned);
     }
 
     private boolean isPotion(ItemStack item) {

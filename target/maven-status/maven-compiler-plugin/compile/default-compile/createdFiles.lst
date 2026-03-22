@@ -4,3 +4,4 @@ com\frazbi\bFBaffovar\commands\BFBCommand.class
 com\frazbi\bFBaffovar\gui\PotionGUI.class
 com\frazbi\bFBaffovar\utils\ColorUtil.class
 com\frazbi\bFBaffovar\EconomyManager.class
+com\frazbi\bFBaffovar\MergeLogger.class
