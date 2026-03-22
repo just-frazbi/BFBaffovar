@@ -140,7 +140,7 @@ gui:
       - "&#DDDDDD Положите зелья в слоты выше"
       - ""
       - "&#DDDDDD Стоимость: &#FFCE69{cost} {currency}"
-      - "&#DDDDDD Баланс:    &#FFCE69{balance} {currency}"
+      - "&#DDDDDD Баланс: &#FFCE69{balance} {currency}"
 
   clear-button:
     slot: 18
@@ -155,7 +155,7 @@ gui:
     name: "&#DDDDDD Инфо"
     lore:
       - "&#DDDDDD Макс. зелий: &#FFCE69{max}"
-      - "&#DDDDDD Стоимость:   &#FFCE69{cost} {currency}"
+      - "&#DDDDDD Стоимость: &#FFCE69{cost} {currency}"
 
 messages:
   prefix: "&#DDDDDD » &r"
