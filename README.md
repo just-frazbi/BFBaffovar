@@ -80,16 +80,25 @@ BFBaffovar — это удобный и гибкий плагин для объ�
 
 ```
 # ============================================================
-#   BFBaffovar — Конфигурация плагина
+#   BFBaffovar - Конфигурация плагина
+#   Поддержка: &коды_цветов и &#RRGGBB HEX цвета
 # ============================================================
 
 economy:
+  # Провайдер экономики: VAULT или PLAYERPOINTS
+  # Если выбранный плагин не найден — автоматически переключится на второй
+  provider: VAULT
   enabled: true
+  # Режим цены: FIXED (фиксированная) или PER_POTION (цена × количество)
   pricing-mode: PER_POTION
-  cost: 200
+  cost: 50.0
+  # Название валюты для PlayerPoints (у Vault берётся автоматически)
+  playerpoints-currency-name: "очков"
 
 merge:
+  # Максимум зелий за одно объединение (не более 7)
   max-potions: 7
+  # Разрешать объединение только зелий одного типа и уровня
   require-same-type: true
 
 permissions:
@@ -104,9 +113,11 @@ sounds:
   no-money: "BLOCK_NOTE_BLOCK_BASS"
 
 gui:
+  # Размер инвентаря — кратно 9 (9, 18, 27, 36, 45, 54)
   size: 27
   title: "&#DDDDDD Объединение зелий"
 
+  # Слоты для зелий
   potion-slots: [1, 2, 3, 4, 5, 6, 7]
 
   filler:
@@ -138,12 +149,12 @@ gui:
     name: "&#DDDDDD Инфо"
     lore:
       - "&#DDDDDD Макс. зелий: &#FFCE69{max}"
-      - "&#DDDDDD Цена:        &#FFCE69{cost} {currency}"
+      - "&#DDDDDD Стоимость:   &#FFCE69{cost} {currency}"
 
 messages:
   prefix: "&#DDDDDD » &r"
   no-permission: "{prefix}&#FF6969Недостаточно прав."
-  vault-not-found: "{prefix}&#FF6969Vault не найден!"
+  vault-not-found: "{prefix}&#FF6969Плагин экономики не найден!"
   reload-success: "{prefix}&#7EFF9FКонфиг перезагружен."
   no-potions: "{prefix}&#FF6969Положите хотя бы одно зелье."
   not-a-potion: "{prefix}&#FF6969Сюда можно класть только зелья!"
@@ -152,7 +163,7 @@ messages:
   merge-success: "{prefix}&#7EFF9FОбъединено &#FFCE69{count} &#7EFF9Fзелий за &#FFCE69{cost} {currency}&#7EFF9F."
   merge-free: "{prefix}&#7EFF9FОбъединено &#FFCE69{count} &#7EFF9Fзелий бесплатно."
   inventory-full: "{prefix}&#FF6969Инвентарь полон! Предметы выброшены рядом."
-  invalid-command: "{prefix}&#DDDDDD/bfbaffovar [reload]"
+  invalid-command: "{prefix}&#DDDDDDИспользование: /bfbaffovar [reload]"
 ```
 
 
