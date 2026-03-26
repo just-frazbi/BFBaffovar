@@ -58,7 +58,7 @@ gui:
     lore:
       - "&#DDDDDD Place potions in the slots above"
       - ""
-      - "&#DDDDDD Cost:    &#FFCE69{cost} {currency}"
+      - "&#DDDDDD Cost: &#FFCE69{cost} {currency}"
       - "&#DDDDDD Balance: &#FFCE69{balance} {currency}"
 
   clear-button:
@@ -74,7 +74,7 @@ gui:
     name: "&#DDDDDD Info"
     lore:
       - "&#DDDDDD Max potions: &#FFCE69{max}"
-      - "&#DDDDDD Cost:        &#FFCE69{cost} {currency}"
+      - "&#DDDDDD Cost: &#FFCE69{cost} {currency}"
 
 messages:
   prefix: "&#DDDDDD » &r"
