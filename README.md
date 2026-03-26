@@ -84,6 +84,12 @@ BFBaffovar — это удобный и гибкий плагин для объ�
 #   Поддержка: &коды_цветов и &#RRGGBB HEX цвета
 # ============================================================
 
+debug:
+  # Выводить debug сообщения в консоль (открытие/закрытие GUI, объединения, ошибки)
+  console: true
+  # Сохранять историю объединений в plugins/BFBaffovar/database.log
+  database: true
+
 economy:
   # Провайдер экономики: VAULT или PLAYERPOINTS
   # Если выбранный плагин не найден — автоматически переключится на второй
@@ -134,7 +140,7 @@ gui:
       - "&#DDDDDD Положите зелья в слоты выше"
       - ""
       - "&#DDDDDD Стоимость: &#FFCE69{cost} {currency}"
-      - "&#DDDDDD Баланс:    &#FFCE69{balance} {currency}"
+      - "&#DDDDDD Баланс: &#FFCE69{balance} {currency}"
 
   clear-button:
     slot: 18
@@ -149,7 +155,7 @@ gui:
     name: "&#DDDDDD Инфо"
     lore:
       - "&#DDDDDD Макс. зелий: &#FFCE69{max}"
-      - "&#DDDDDD Стоимость:   &#FFCE69{cost} {currency}"
+      - "&#DDDDDD Стоимость: &#FFCE69{cost} {currency}"
 
 messages:
   prefix: "&#DDDDDD » &r"
